@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_app/data/questions.dart';
+import 'package:quiz_app/home_screen.dart';
 import 'package:quiz_app/questions_summary.dart';
 
 class ResultsScreen extends StatelessWidget {
@@ -26,13 +27,20 @@ class ResultsScreen extends StatelessWidget {
 
   @override
   Widget build(context) {
+    final summaryData = getSummaryData();
+    final numTotalQuestions = summaryData.length;
+    final numAnsweredCorrectly = summaryData.where((data) {
+      return data['user_answer'] == data['correct_answer'];
+    }).length;
+
     return Container(
       margin: EdgeInsets.all(60),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('You answered these correctly!'),
+            Text(
+                'You answered $numAnsweredCorrectly out of $numTotalQuestions questions correctly'),
             const SizedBox(
               height: 20,
             ),
