@@ -30,7 +30,8 @@ class _QuestionScreenState extends State<QuestionScreen> {
             const SizedBox(
               height: 20,
             ),
-            ...currentQuestion.answers.map(
+            //getShuffled will shuffle our list on every reload but our original list is not mutated
+            ...currentQuestion.getShuffledAnswers().map(
               (answer) {
                 return AnswerButton(answerText: answer, onTap: () {});
               },
