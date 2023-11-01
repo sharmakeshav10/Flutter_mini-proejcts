@@ -1,0 +1,17 @@
+import 'package:expense_tracker/expenses.dart';
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(context) {
+    return const MaterialApp(
+      home: Expenses(),
+    );
+  }
+}
