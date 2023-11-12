@@ -2,7 +2,9 @@ import 'package:expense_tracker/models/expense.dart';
 import 'package:flutter/material.dart';
 
 class NewExpense extends StatefulWidget {
-  const NewExpense({super.key});
+  const NewExpense({super.key, required this.onAddExpense});
+
+  final void Function(Expense expense) onAddExpense;
 
   @override
   State<NewExpense> createState() {
@@ -35,6 +37,7 @@ class _NewExpenseState extends State<NewExpense> {
     final enteredAmount =
         double.tryParse(_amountController.text); //converts a string to double
     final amountIsInvalid = enteredAmount == null || enteredAmount <= 0;
+
     if (_titleController.text.trim().isEmpty ||
         amountIsInvalid ||
         selectedDate == null) {
@@ -46,11 +49,25 @@ class _NewExpenseState extends State<NewExpense> {
           content: Text('Please enter a valid input'),
           actions: [
             ElevatedButton(
-                onPressed: () => Navigator.pop(ctx), child: Text('Okay'))
+              onPressed: () => Navigator.pop(ctx),
+              child: Text('Okay'),
+            )
           ],
         ),
       );
+      return;
     }
+
+    widget.onAddExpense(
+      Expense(
+          title: _titleController.text,
+          amount: enteredAmount,
+          date: selectedDate!,
+          category: selectedCategory),
+    );
+
+    //closes the modal after expense is added
+    Navigator.pop(context);
   }
 
   @override
@@ -63,7 +80,7 @@ class _NewExpenseState extends State<NewExpense> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.fromLTRB(20, 45, 20, 20),
         child: Column(
           children: [
             TextField(
