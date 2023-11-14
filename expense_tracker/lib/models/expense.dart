@@ -36,3 +36,27 @@ class Expense {
     return formatter.format(date);
   }
 }
+
+//for creating charts
+class ExpenseBucket {
+  ExpenseBucket({required this.category, required this.expenses});
+
+  //alt constructor function to filter out category of expense to show on chart
+  ExpenseBucket.forCategory(List<Expense> allExpenses, this.category)
+      : expenses = allExpenses
+            .where((expense) => expense.category == category)
+            .toList();
+
+  final Category category;
+  final List<Expense> expenses;
+
+  double get totalExpenses {
+    double sum = 0;
+
+    for (final expense in expenses) {
+      sum += expense.amount;
+    }
+
+    return sum;
+  }
+}
