@@ -1,11 +1,17 @@
 import 'package:expense_tracker/widgets/expenses.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 var kDarkColorScheme =
     ColorScheme.fromSeed(seedColor: Colors.black, brightness: Brightness.dark);
 
 void main() {
-  runApp(MyApp());
+  //locking screen orientation to portrait-up mode
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((fn) {
+    runApp(MyApp());
+  });
 }
 
 class MyApp extends StatelessWidget {
