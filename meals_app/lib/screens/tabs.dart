@@ -16,14 +16,30 @@ class _TabsScreenState extends State<TabsScreen> {
   int selectedPageIndex = 0;
   final List<Meal> favoriteMeals = [];
 
+  void infoMessage(String message) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: Duration(seconds: 2),
+        content: Text(message),
+      ),
+    );
+  }
+
   //check if the meal is in favorites or not in the mealDetails screen
   void toggleMealFavoriteStatus(Meal meal) {
     final isExisting = favoriteMeals.contains(meal);
 
     if (isExisting) {
-      favoriteMeals.remove(meal);
+      setState(() {
+        favoriteMeals.remove(meal);
+        infoMessage('Meal removed from favorites');
+      });
     } else {
-      favoriteMeals.add(meal);
+      setState(() {
+        favoriteMeals.add(meal);
+        infoMessage('Meal added to favorites');
+      });
     }
   }
 
@@ -41,8 +57,8 @@ class _TabsScreenState extends State<TabsScreen> {
     var activePageTitle = 'Categories';
 
     if (selectedPageIndex == 1) {
-      activePage =
-          MealsScreen(onToggleFavorite: toggleMealFavoriteStatus, meals: []);
+      activePage = MealsScreen(
+          onToggleFavorite: toggleMealFavoriteStatus, meals: favoriteMeals);
       activePageTitle = 'Your Favorites';
     }
 
