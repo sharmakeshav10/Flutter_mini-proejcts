@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:meals_app/models/meal.dart';
 import 'package:meals_app/screens/categories.dart';
 import 'package:meals_app/screens/meals.dart';
+import 'package:meals_app/widgets/main_drawer.dart';
 
 class TabsScreen extends StatefulWidget {
   TabsScreen({super.key});
@@ -43,6 +44,16 @@ class _TabsScreenState extends State<TabsScreen> {
     }
   }
 
+//to set the screen on the drawer
+  void setScreen(String identifier) {
+    if (identifier == 'filters') {
+      //navigate to filter screen
+    } else {
+      //since we are already on the tabs screen we'll close the drawer
+      Navigator.of(context).pop();
+    }
+  }
+
   void selectPage(int index) {
     setState(() {
       selectedPageIndex = index;
@@ -66,6 +77,7 @@ class _TabsScreenState extends State<TabsScreen> {
       appBar: AppBar(
         title: Text(activePageTitle),
       ),
+      drawer: MainDrawer(onSelectScreen: setScreen),
       body: activePage,
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: selectedPageIndex,
