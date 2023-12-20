@@ -46,14 +46,15 @@ class _TabsScreenState extends State<TabsScreen> {
   }
 
 //to set the screen on the drawer
-  void setScreen(String identifier) {
+  void setScreen(String identifier) async {
     if (identifier == 'filters') {
       //navigate to filter screen
-      Navigator.of(context).push(
+      final result = await Navigator.of(context).push<Map<Filters, bool>>(
         MaterialPageRoute(
           builder: (ctx) => FiltersScreen(),
         ),
       );
+      print(result);
     } else {
       //since we are already on the tabs screen we'll close the drawer
       Navigator.of(context).pop();
