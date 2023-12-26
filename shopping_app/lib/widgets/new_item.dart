@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shopping_app/data/categories.dart';
 import 'package:shopping_app/models/category.dart';
+import 'package:shopping_app/models/grocery_item.dart';
 
 class NewItem extends StatefulWidget {
   const NewItem({super.key});
@@ -16,14 +17,19 @@ class _NewItemState extends State<NewItem> {
 
   var enteredQuantity = 1;
 
-  var selectedCategory = categories[Categories.vegetables];
+  var selectedCategory = categories[Categories.vegetables]!;
 
   void onSaveItem() {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
-      print(enteredName);
-      print(enteredQuantity);
-      print(selectedCategory?.title);
+      //add the new_item to the grocery_list component
+      Navigator.of(context).pop(GroceryItem(
+          id: DateTime.now().toString(),
+          name: enteredName,
+          quantity: enteredQuantity,
+          category: selectedCategory));
+      print(
+          'name: ${enteredName}, quantity: ${enteredQuantity}, category: ${selectedCategory.title}');
     }
   }
 
@@ -50,6 +56,7 @@ class _NewItemState extends State<NewItem> {
                         value.trim().length > 50) {
                       return 'Value must be between 1 and 50 characters.';
                     }
+                    return null;
                   },
                   onSaved: (value) {
                     enteredName = value!;
@@ -71,6 +78,7 @@ class _NewItemState extends State<NewItem> {
                               int.tryParse(value)! <= 0) {
                             return 'Enter a valid positive number.';
                           }
+                          return null;
                         },
                         onSaved: (value) {
                           enteredQuantity = int.parse(value!);
