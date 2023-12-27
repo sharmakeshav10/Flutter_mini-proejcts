@@ -49,8 +49,14 @@ class _NewItemState extends State<NewItem> {
       print(
           'name: ${enteredName}, quantity: ${enteredQuantity}, category: ${selectedCategory.title}');
 
+      final Map<String, dynamic> resData = json.decode(response.body);
+
       if (response.statusCode == 200) {
-        Navigator.of(context).pop();
+        Navigator.of(context).pop(GroceryItem(
+            id: resData['name'],
+            name: enteredName,
+            quantity: enteredQuantity,
+            category: selectedCategory));
       }
     }
   }
