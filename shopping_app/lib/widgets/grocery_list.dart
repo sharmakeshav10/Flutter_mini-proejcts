@@ -74,10 +74,26 @@ class _GroceryListState extends State<GroceryList> {
     });
   }
 
-  void onRemoveItem(GroceryItem item) {
+  void onRemoveItem(GroceryItem item) async {
+    final index = _groceryItems.indexOf(item);
+
+    //locallu updating the UI after deletion
     setState(() {
       _groceryItems.remove(item);
     });
+
+//deleting the item from the backend
+    final url = Uri.https(
+        'flutter-shopping-app-762e9-default-rtdb.firebaseio.com',
+        'shopping-list/${item.id}.json');
+
+    final response = await http.delete(url);
+
+    if (response.statusCode >= 400) {
+      setState(() {
+        _groceryItems.insert(index, item);
+      });
+    }
   }
 
   @override
@@ -93,7 +109,7 @@ class _GroceryListState extends State<GroceryList> {
         itemCount: _groceryItems.length,
         itemBuilder: (context, index) {
           return Dismissible(
-            key: ValueKey(_groceryItems[index].toString()),
+            key: ValueKey(_groceryItems[index].id),
             onDismissed: (direction) {
               onRemoveItem(_groceryItems[index]);
               ScaffoldMessenger.of(context).showSnackBar(
