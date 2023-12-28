@@ -1,4 +1,5 @@
 import 'package:favorite_places/models/place.dart';
+import 'package:favorite_places/screens/place_detail.dart';
 import 'package:flutter/material.dart';
 
 class PlacesList extends StatelessWidget {
@@ -22,6 +23,12 @@ class PlacesList extends StatelessWidget {
       itemCount: places.length,
       itemBuilder: (context, index) {
         return ListTile(
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (ctx) => PlaceDetail(
+                      place: places[index],
+                    )));
+          },
           title: Text(
             places[index].title,
             style: Theme.of(context)
